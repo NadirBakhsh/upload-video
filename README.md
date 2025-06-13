@@ -24,8 +24,8 @@ A fullstack Next.js application featuring secure authentication, image optimizat
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/next-fullstack-imagekit.git
-   cd next-fullstack-imagekit
+   git clone https://github.com/NadirBakhsh/upload-video.git
+   cd upload-video
    ```
 
 2. Install dependencies:
@@ -77,9 +77,5 @@ npm start
 - [NextAuth.js](https://next-auth.js.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [TypeScript](https://www.typescriptlang.org/)
-
-## License
-
-This project is private. For usage or licensing, please contact the author.
 
 ---
