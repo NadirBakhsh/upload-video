@@ -1,0 +1,39 @@
+import mongoose from "mongoose"
+import { buffer } from "stream/consumers"
+
+const MONGODB_URI = process.env.MONGODB_URI || ""
+
+if (!MONGODB_URI) {
+  throw new Error(
+    "Please define the MONGODB_URI environment variable inside .env"
+  )
+}
+
+let cached = global.mongoose
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null }
+}
+
+export async function dbConnect() {
+  if (cached.conn) {
+    return cached.conn
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: true, // Disable mongoose's buffering of commands
+      maxPoolSize: 10 // Maintain up to 10 socket connections
+    }
+
+    mongoose.connect(MONGODB_URI).then(() => mongoose.connection)
+  }
+
+  try {
+    cached.conn = await cached.promise
+  } catch (error) {
+    cached.promise = null
+    throw error
+  }
+
+  return cached.conn
+}
