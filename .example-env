@@ -1,0 +1,13 @@
+# This file contains environment variables for the application.
+# Make sure to replace the placeholder values with your actual configuration.
+
+# Database configuration
+MONGODB_URI=your_mongodb_connection_string
+
+# next-auth configuration
+NEXT_AUTH_SECRET=your_nextauth_secret
+
+# Imagekit configuration
+NEXT_PUBLIC_IMAGEKIT_KEY=your_imagekit_public_key
+NEXT_PRIVATE_IMAGEKIT_KEY=your_imagekit_private_key
+NEXT_IMAGEKIT_URL_ENDPOINT=your_imagekit_url_endpoint
