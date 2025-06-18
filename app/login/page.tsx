@@ -9,6 +9,7 @@ import { useState } from "react"
 function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [errorMsg, setErrorMsg] = useState("")
   const router = useRouter()
 
   const [debouncedEmail, setDebouncedEmail] = useState("")
@@ -28,6 +29,7 @@ function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setErrorMsg("")
     try {
       const result = await signIn("credentials", {
         email: debouncedEmail,
@@ -36,16 +38,14 @@ function LoginPage() {
       })
 
       if (result?.error) {
-        console.log("Login error:", result.error)
-        // Handle error appropriately, e.g., show a notification or alert
-        throw new Error(result.error)
+        setErrorMsg("Invalid email or password")
+        return
       } else {
-        // Redirect to the home page or dashboard after successful login
         router.push("/")
       }
     } catch (error) {
+      setErrorMsg("An unexpected error occurred")
       console.error("Login error:", error)
-      alert("Invalid email or password")
     }
   }
 
@@ -55,6 +55,11 @@ function LoginPage() {
       className="max-w-md mx-auto mt-16 bg-black rounded-lg shadow-lg p-8 flex flex-col gap-6"
     >
       <h1 className="text-3xl font-bold text-white mb-4 text-center">Login</h1>
+      {errorMsg && (
+        <div className="bg-red-700 text-white rounded px-4 py-2 text-center">
+          {errorMsg}
+        </div>
+      )}
       <div className="flex flex-col gap-2">
         <label htmlFor="email" className="text-white font-medium">
           Email:
