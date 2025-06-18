@@ -7,45 +7,36 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [errorMsg, setErrorMsg] = useState("")
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
   const router = useRouter()
 
-  const [debouncedEmail, setDebouncedEmail] = useState("")
-  const [debouncedPassword, setDebouncedPassword] = useState("")
-
-  const debounceEmail = useDebounce(setDebouncedEmail, 400)
-  const debouncePassword = useDebounce(setDebouncedPassword, 400)
-
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value)
-    debounceEmail(e.target.value)
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value)
   }
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value)
-    debouncePassword(e.target.value)
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setErrorMsg("")
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setError('')
     try {
-      const result = await signIn("credentials", {
-        email: debouncedEmail,
-        password: debouncedPassword,
-        redirect: false
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
       })
 
       if (result?.error) {
-        setErrorMsg("Invalid email or password")
+        setError('Invalid email or password')
         return
       } else {
-        router.push("/")
+        router.push('/')
       }
     } catch (error) {
-      setErrorMsg("An unexpected error occurred")
-      console.error("Login error:", error)
+      setError('An unexpected error occurred')
     }
   }
 
@@ -55,9 +46,9 @@ function LoginPage() {
       className="max-w-md mx-auto mt-16 bg-black rounded-lg shadow-lg p-8 flex flex-col gap-6"
     >
       <h1 className="text-3xl font-bold text-white mb-4 text-center">Login</h1>
-      {errorMsg && (
+      {error && (
         <div className="bg-red-700 text-white rounded px-4 py-2 text-center">
-          {errorMsg}
+          {error}
         </div>
       )}
       <div className="flex flex-col gap-2">
@@ -93,7 +84,7 @@ function LoginPage() {
         Login
       </button>
       <p className="text-gray-400 text-center mt-4">
-        Don't have an account?{" "}
+        Don't have an account?{' '}
         <Link href="/register" className="text-blue-400 hover:underline">
           Register
         </Link>
