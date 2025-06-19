@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
   const router = useRouter()
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,22 +21,22 @@ function LoginPage() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setError('')
+    setError("")
     try {
-      const result = await signIn('credentials', {
+      const result = await signIn("credentials", {
         email,
         password,
-        redirect: false,
+        redirect: false
       })
 
       if (result?.error) {
-        setError('Invalid email or password')
+        setError("Invalid email or password")
         return
       } else {
-        router.push('/')
+        router.push("/")
       }
     } catch (error) {
-      setError('An unexpected error occurred')
+      setError("An unexpected error occurred")
     }
   }
 
@@ -84,7 +84,7 @@ function LoginPage() {
         Login
       </button>
       <p className="text-gray-400 text-center mt-4">
-        Don't have an account?{' '}
+        Don't have an account?{" "}
         <Link href="/register" className="text-blue-400 hover:underline">
           Register
         </Link>

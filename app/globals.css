@@ -24,3 +24,43 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.alert {
+  @apply p-4 rounded-md border shadow-md absolute text-black transform transition-all ease-in-out z-50 bottom-0 right-0 m-4;
+}
+
+.alert-success {
+  @apply bg-green-100 border-green-300;
+}
+
+.alert-error {
+  @apply bg-red-100 border-red-300;
+}
+
+.alert-warning {
+  @apply bg-yellow-100 border-yellow-300;
+}
+
+.alert-info {
+  @apply bg-blue-100 border-blue-300;
+}
+
+.alert-enter {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.alert-enter-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.alert-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.alert-exit-active {
+  opacity: 0;
+  transform: scale(0.95);
+}
