@@ -45,14 +45,13 @@ const FileUpload = ({ onSuccess, onProgress, fileType }: FileUploadProps) => {
     try {
       const authRes = await fetch("/api/imagekit-auth")
       const auth = await authRes.json()
-
       const res = await upload({
         file,
         fileName: file.name,
         publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_KEY!,
-        signature: auth.signature,
-        expire: auth.expire,
-        token: auth.token,
+        signature: auth.authenticationParameters.signature,
+        expire: auth.authenticationParameters.expire,
+        token: auth.authenticationParameters.token,
         onProgress: (event) => {
           if (event.lengthComputable && onProgress) {
             const percent = (event.loaded / event.total) * 100
@@ -70,14 +69,40 @@ const FileUpload = ({ onSuccess, onProgress, fileType }: FileUploadProps) => {
 
   return (
     <>
-      <input
-        type="file"
-        accept={fileType === "image" ? "image/*" : "video/*"}
-        onChange={handleFileChange}
-      />
-      {uploading && <span>Loading...</span>}
-      <br />
-      Upload progress: <progress value={progress} max={100}></progress>
+      <div>
+        <label className="block text-gray-400 text-lg font-medium mb-2">
+          Upload Video
+        </label>
+        <div className="flex items-center space-x-4">
+          <label
+            htmlFor="file-upload"
+            className="w-auto px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm placeholder-gray-500 resize-y transition duration-300"
+          >
+            CHOOSE FILE
+            <input
+              id="file-upload"
+              type="file"
+              accept={fileType === "image" ? "image/*" : "video/*"}
+              onChange={handleFileChange}
+              className="hidden"
+            />
+          </label>
+          <span className="text-gray-400 text-lg">{"fileName"}</span>
+        </div>
+        <div className="relative">
+          <progress
+            className="mt-2 w-full "
+            value={progress}
+            max={100}
+          ></progress>
+          {!uploading && (
+            <span className="text-gray-100 text-sm absolute -top-3 right-0">
+              Loading...
+            </span>
+          )}
+        </div>
+        {error && <p className="text-red-500 mt-2">{error}</p>}
+      </div>
     </>
   )
 }
