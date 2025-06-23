@@ -1,13 +1,7 @@
 "use client" // This component must be a client component
 
-import {
-  ImageKitAbortError,
-  ImageKitInvalidRequestError,
-  ImageKitServerError,
-  ImageKitUploadNetworkError,
-  upload
-} from "@imagekit/next"
-import React, { useRef, useState } from "react"
+import { upload } from "@imagekit/next"
+import React, { useState } from "react"
 
 interface FileUploadProps {
   onSuccess: (res: any) => void
@@ -56,6 +50,7 @@ const FileUpload = ({ onSuccess, onProgress, fileType }: FileUploadProps) => {
           if (event.lengthComputable && onProgress) {
             const percent = (event.loaded / event.total) * 100
             onProgress(Math.round(percent))
+            setProgress(Math.round(percent))
           }
         }
       })
@@ -90,12 +85,14 @@ const FileUpload = ({ onSuccess, onProgress, fileType }: FileUploadProps) => {
           <span className="text-gray-400 text-lg">{"fileName"}</span>
         </div>
         <div className="relative">
-          <progress
-            className="mt-2 w-full "
-            value={progress}
-            max={100}
-          ></progress>
-          {!uploading && (
+          {!!progress && (
+            <progress
+              className="mt-2 w-full"
+              value={progress}
+              max={100}
+            ></progress>
+          )}
+          {!!progress && progress < 100 && (
             <span className="text-gray-100 text-sm absolute -top-3 right-0">
               Loading...
             </span>

@@ -36,7 +36,10 @@ export default function Header() {
         </div>
         <div className="px-4">
           {session ? (
+            <div className="flex items-center gap-2">
             <Logout />
+            <Link className="hover:underline hover:text-indigo-500" href={'/upload'}>Video Upload</Link>
+            </div>
           ) : (
             <Link
               href="/login"

@@ -1,14 +1,22 @@
 import React, { useState } from "react"
 import FileUpload from "./FileUpload"
+import { apiClient } from "@/lib/api-client"
 
 function VideoUploadForm() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
+
   const [selectedFile, setSelectedFile] = useState(null)
+  const [titleError, setTitleError] = useState("")
+  const [descriptionError, setDescriptionError] = useState("")
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    console.log("Form submitted:", { title, description, selectedFile })
+    if (!title) setTitleError("Title is required")
+    if (!description) setDescriptionError("Description is required")
+    if (title && description && selectedFile) {
+      console.log("Form submitted:", { title, description, selectedFile })
+    }
   }
 
   return (
@@ -29,10 +37,16 @@ function VideoUploadForm() {
               type="text"
               id="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value)
+                setTitleError("")
+              }}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg placeholder-gray-500 transition duration-300"
               placeholder="Enter title"
             />
+            {titleError && (
+              <p className="text-red-500 text-sm mt-2">{titleError}</p>
+            )}
           </div>
 
           {/* Description Textarea */}
@@ -46,11 +60,17 @@ function VideoUploadForm() {
             <textarea
               id="description"
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => {
+                setDescription(e.target.value)
+                setDescriptionError("")
+              }}
               rows={3}
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg placeholder-gray-500 resize-y transition duration-300"
               placeholder="Enter description"
             ></textarea>
+            {descriptionError && (
+              <p className="text-red-500 text-sm mt-2">{descriptionError}</p>
+            )}
           </div>
 
           {/* Upload Video Input */}
