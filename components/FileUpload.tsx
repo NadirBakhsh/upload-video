@@ -54,7 +54,11 @@ const FileUpload = ({ onSuccess, onProgress, fileType }: FileUploadProps) => {
           }
         }
       })
-      onSuccess(res)
+      // Always provide a thumbnailUrl (fallback to url or empty string)
+      onSuccess({
+        ...res,
+        thumbnailUrl: res.thumbnailUrl || res.url || ""
+      })
     } catch (error) {
       console.log(error)
     } finally {

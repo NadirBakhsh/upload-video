@@ -35,7 +35,7 @@ class ApiClient {
   }
 
   async createVideo(videoData: VideoFormData) {
-    return await this.fetch("/videos", { method: "POST", body: videoData })
+    return await this.fetch("imagekit-auth", { method: "POST", body: videoData })
   }
 }
 

@@ -36,6 +36,8 @@ export async function POST(request: Request) {
     await connectToDatabase()
 
     const body: IVideo = await request.json()
+    // Debug log
+    console.log("Received video POST body:", body)
     if (
       !body ||
       !body.title ||
@@ -44,7 +46,7 @@ export async function POST(request: Request) {
       !body.thumbnailUrl
     ) {
       return NextResponse.json(
-        { error: "Title and description are required" },
+        { error: "All fields (title, description, videoUrl, thumbnailUrl) are required" },
         { status: 400 }
       )
     }
