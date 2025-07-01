@@ -1,12 +1,32 @@
 "use client"
 import VideoFeed from "@/components/VideoFeed"
 import { IVideo } from "@/models/Video"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { apiClient } from "@/lib/api-client"
+
 export default function Home() {
   const [videos, setVideos] = useState<IVideo[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    async function fetchVideos() {
+      try {
+        const data = await apiClient.getVideos() as IVideo[]
+        setVideos(data)
+      } catch (err: any) {
+        setError("Failed to load videos")
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchVideos()
+  }, [])
 
   return (
     <div>
+      {loading && <div className="text-center py-8 text-gray-400">Loading videos...</div>}
+      {error && <div className="text-center py-8 text-red-500">{error}</div>}
       <VideoFeed videos={videos} />
     </div>
   )

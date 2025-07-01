@@ -1,8 +1,12 @@
-import React, { useState } from "react"
+"use client"
+import React, { useCallback, useState } from "react"
 import FileUpload from "./FileUpload"
 import { apiClient } from "@/lib/api-client"
+import { useRouter } from "next/navigation"
 
 function VideoUploadForm() {
+  const router = useRouter()
+
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [selectedFile, setSelectedFile] = useState<any>(null)
@@ -12,45 +16,49 @@ function VideoUploadForm() {
   const [errorMsg, setErrorMsg] = useState("")
   const [uploading, setUploading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setTitleError("")
-    setDescriptionError("")
-    setSuccessMsg("")
-    setErrorMsg("")
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault()
+      setTitleError("")
+      setDescriptionError("")
+      setSuccessMsg("")
+      setErrorMsg("")
 
-    if (!title) setTitleError("Title is required")
-    if (!description) setDescriptionError("Description is required")
-    if (!selectedFile) {
-      setErrorMsg("Please upload a video file.")
-      return
-    }
-    if (!title || !description || !selectedFile) return
+      if (!title) setTitleError("Title is required")
+      if (!description) setDescriptionError("Description is required")
+      if (!selectedFile) {
+        setErrorMsg("Please upload a video file.")
+        return
+      }
+      if (!title || !description || !selectedFile) return
 
-    setUploading(true)
-    try {
-      await apiClient.createVideo({
-        title,
-        description,
-        videoUrl: selectedFile.url,
-        thumbnailUrl: selectedFile.thumbnailUrl || "",
-        controls: true,
-        transformation: {
-          width: selectedFile.width || 1080,
-          height: selectedFile.height || 1920,
-          quality: 75
-        }
-      })
-      setSuccessMsg("Video uploaded and saved successfully!")
-      setTitle("")
-      setDescription("")
-      setSelectedFile(null)
-    } catch (err: any) {
-      setErrorMsg(err.message || "Failed to save video info.")
-    } finally {
-      setUploading(false)
-    }
-  }
+      setUploading(true)
+      try {
+        await apiClient.createVideo({
+          title,
+          description,
+          videoUrl: selectedFile.url,
+          thumbnailUrl: selectedFile.thumbnailUrl || "",
+          controls: true,
+          transformation: {
+            width: selectedFile.width || 1080,
+            height: selectedFile.height || 1920,
+            quality: 75
+          }
+        })
+        setSuccessMsg("Video uploaded and saved successfully!")
+        setTitle("")
+        setDescription("")
+        setSelectedFile(null)
+        router.replace("/")
+      } catch (err: any) {
+        setErrorMsg(err.message || "Failed to save video info.")
+      } finally {
+        setUploading(false)
+      }
+    },
+    [selectedFile, title, description]
+  )
 
   return (
     <div className=" bg-black text-white flex items-center justify-center p-4 font-sans">
