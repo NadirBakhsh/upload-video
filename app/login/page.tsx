@@ -1,16 +1,35 @@
 "use client"
 
-import useDebounce from "@/hooks/useDebouncedCallback"
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const { status } = useSession()
   const router = useRouter()
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.replace("/")
+    }
+    // If unauthenticated, do nothing (show form)
+  }, [status, router])
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-black">
+        <span className="text-white text-lg">Loading...</span>
+      </div>
+    )
+  }
+
+  if (status === "authenticated") {
+    return null
+  }
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value)

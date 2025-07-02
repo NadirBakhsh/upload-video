@@ -1,15 +1,36 @@
 "use client"
 
 import useDebounce from "@/hooks/useDebouncedCallback"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 function RegisterPage() {
+  const { status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.replace("/")
+    }
+  }, [status, router])
+
+  if (status === "loading") {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-black">
+        <span className="text-white text-lg">Loading...</span>
+      </div>
+    )
+  }
+
+  if (status === "authenticated") {
+    return null
+  }
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const router = useRouter()
 
   // Debounced setters
   const [debouncedEmail, setDebouncedEmail] = useState("")
