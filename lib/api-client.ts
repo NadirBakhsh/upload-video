@@ -37,6 +37,10 @@ class ApiClient {
   async createVideo(videoData: VideoFormData) {
     return await this.fetch("imagekit-auth", { method: "POST", body: videoData })
   }
+
+  async deleteVideo(id: string) {
+    return await this.fetch(`/videos/${id}`, { method: "DELETE" })
+  }
 }
 
 export const apiClient = new ApiClient()

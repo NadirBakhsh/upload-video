@@ -23,11 +23,15 @@ export default function Home() {
     fetchVideos()
   }, [])
 
+  const handleDelete = (id: string) => {
+    setVideos((prev) => prev.filter((v) => v._id?.toString() !== id))
+  }
+
   return (
     <div>
       {loading && <div className="text-center py-8 text-gray-400">Loading videos...</div>}
       {error && <div className="text-center py-8 text-red-500">{error}</div>}
-      <VideoFeed videos={videos} />
+      <VideoFeed videos={videos} onDelete={handleDelete} />
     </div>
   )
 }
