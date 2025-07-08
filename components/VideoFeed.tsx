@@ -1,8 +1,8 @@
-import { IVideo } from "@/models/Video"
-import VideoComponent from "./VideoComponent"
 import { apiClient } from "@/lib/api-client"
-import { useState } from "react"
+import { IVideo } from "@/models/Video"
 import { LoaderIcon, Trash2 } from "lucide-react"
+import { useState } from "react"
+import VideoComponent from "./VideoComponent"
 
 interface VideoFeedProps {
   videos: IVideo[]
@@ -35,7 +35,11 @@ export default function VideoFeed({ videos, onDelete }: VideoFeedProps) {
             disabled={deletingId === video._id?.toString()}
             className="absolute bottom-14 right-6 bg-red-500 cursor-pointer hover:bg-red-700 text-white rounded px-2 py-1 text-xs font-semibold shadow transition"
           >
-            {deletingId === video._id?.toString() ? <LoaderIcon className="w-4 h-4 inline animate-spin" /> : <Trash2 className="w-4 h-4 inline" />}
+            {deletingId === video._id?.toString() ? (
+              <LoaderIcon className="w-4 h-4 inline animate-spin" />
+            ) : (
+              <Trash2 className="w-4 h-4 inline" />
+            )}
           </button>
         </div>
       ))}
