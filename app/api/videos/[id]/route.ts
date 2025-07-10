@@ -4,10 +4,11 @@ import Video from "@/models/Video"
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   await connectToDatabase()
-  const id = params.id
+  const { id } = await context.params // Await params as required by Next.js
+
   try {
     const deleted = await Video.findByIdAndDelete(id)
     if (!deleted) {
