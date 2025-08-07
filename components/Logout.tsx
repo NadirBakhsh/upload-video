@@ -16,11 +16,11 @@ export default function Logout() {
 
   return (
     <button
-      className="bg-amber-700 hover:bg-amber-800 cursor-pointer w-full px-4 text-sm font-semibold py-2 rounded-sm flex items-center gap-1"
+      className="bg-amber-700 space-x-2 relative text-center justify-center hover:bg-amber-800 cursor-pointer w-full px-4 text-sm font-semibold py-2 rounded-sm flex items-center gap-1"
       onClick={handleSignOut}
     >
-      <LogOutIcon size={20} />
       <span>Logout</span>
+      <LogOutIcon size={20} className="" />
     </button>
   )
 }
