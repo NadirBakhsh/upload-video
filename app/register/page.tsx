@@ -136,7 +136,7 @@ function RegisterPage() {
       </div>
       <button
         type="submit"
-        className="w-full py-2 mt-2 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
+        className="w-full cursor-pointer py-2 mt-2 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
       >
         Register
       </button>
