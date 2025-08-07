@@ -31,7 +31,7 @@ export default function Home() {
     <div>
       {loading && <div className="text-center py-8 text-gray-400">Loading videos...</div>}
       {error && <div className="text-center py-8 text-red-500">{error}</div>}
-      <VideoFeed videos={videos} onDelete={handleDelete} />
+      {!loading && <VideoFeed videos={videos} onDelete={handleDelete} />}
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { IVideo } from "@/models/Video"
 import { LoaderIcon, Trash2 } from "lucide-react"
 import { useState } from "react"
 import VideoComponent from "./VideoComponent"
+import { useSession } from "next-auth/react"
 
 interface VideoFeedProps {
   videos: IVideo[]
@@ -11,6 +12,7 @@ interface VideoFeedProps {
 
 export default function VideoFeed({ videos, onDelete }: VideoFeedProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null)
+    const { data: session } = useSession()
 
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this video?")) return
@@ -30,7 +32,7 @@ export default function VideoFeed({ videos, onDelete }: VideoFeedProps) {
       {videos.map((video) => (
         <div key={video._id?.toString()} className="relative">
           <VideoComponent video={video} />
-          <button
+         {session && <button
             onClick={() => handleDelete(video._id?.toString() || "")}
             disabled={deletingId === video._id?.toString()}
             className="absolute bottom-14 right-6 bg-red-500 cursor-pointer hover:bg-red-700 text-white rounded px-2 py-1 text-xs font-semibold shadow transition"
@@ -40,7 +42,7 @@ export default function VideoFeed({ videos, onDelete }: VideoFeedProps) {
             ) : (
               <Trash2 className="w-4 h-4 inline" />
             )}
-          </button>
+          </button>}
         </div>
       ))}
 
