@@ -16,7 +16,7 @@ export default function Logout() {
 
   return (
     <button
-      className="bg-amber-700 px-4 text-sm font-semibold py-2 rounded-full flex items-center gap-1"
+      className="bg-amber-700 hover:bg-amber-800 cursor-pointer w-full px-4 text-sm font-semibold py-2 rounded-sm flex items-center gap-1"
       onClick={handleSignOut}
     >
       <LogOutIcon size={20} />

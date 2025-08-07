@@ -28,7 +28,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div className="container mx-auto">
       {loading && <div className="text-center py-8 text-gray-400">Loading videos...</div>}
       {error && <div className="text-center py-8 text-red-500">{error}</div>}
       {!loading && <VideoFeed videos={videos} onDelete={handleDelete} />}

@@ -135,7 +135,7 @@ function VideoUploadForm() {
           <div className="pt-4">
             <button
               type="submit"
-              className="w-full bg-green-400 hover:bg-green-700 text-black font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-xl"
+              className="w-full bg-green-400 cursor-pointer hover:bg-green-700 text-black font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-xl"
               disabled={uploading}
             >
               {uploading ? "Publishing..." : "Publish Video"}

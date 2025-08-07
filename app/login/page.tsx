@@ -98,7 +98,7 @@ function LoginPage() {
       </div>
       <button
         type="submit"
-        className="w-full py-2 mt-2 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
+        className="w-full py-2 mt-2 rounded cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
       >
         Login
       </button>
