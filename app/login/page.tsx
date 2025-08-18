@@ -54,7 +54,7 @@ function LoginPage() {
       } else {
         router.push("/")
       }
-    } catch (error) {
+    } catch {
       setError("An unexpected error occurred")
     }
   }
@@ -103,7 +103,7 @@ function LoginPage() {
         Login
       </button>
       <p className="text-gray-400 text-center mt-4">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link href="/register" className="text-blue-400 hover:underline">
           Register
         </Link>

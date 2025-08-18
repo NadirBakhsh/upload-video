@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 import { connectToDatabase } from "@/lib/db"
 import Video from "@/models/Video"
 
 export async function DELETE(
-  request: NextRequest,
-  context: { params: { id: string } }
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }  // <- Promise here
 ) {
   await connectToDatabase()
-  const { id } = await context.params // Await params as required by Next.js
+  const { id } = await params                             // <- await here
 
   try {
     const deleted = await Video.findByIdAndDelete(id)
@@ -16,6 +16,9 @@ export async function DELETE(
     }
     return NextResponse.json({ success: true })
   } catch (error) {
-    return NextResponse.json({ error: "Failed to delete video" }, { status: 500 })
+    return NextResponse.json(
+      { error: "Failed to delete video", errorData: String(error) },
+      { status: 500 }
+    )
   }
 }

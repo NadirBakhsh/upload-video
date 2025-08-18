@@ -8,6 +8,7 @@ export async function GET() {
     const videos = await Video.find().sort({ createdAt: -1 })
     return NextResponse.json(videos)
   } catch (error) {
-    return NextResponse.json({ error: "Failed to fetch videos" }, { status: 500 })
+    const errorMessage = error instanceof Error ? error.message : String(error)
+    return NextResponse.json({ error: "Failed to fetch videos", errors: errorMessage }, { status: 500 })
   }
 }

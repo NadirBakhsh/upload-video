@@ -9,7 +9,7 @@ function VideoUploadForm() {
 
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
-  const [selectedFile, setSelectedFile] = useState<any>(null)
+  const [selectedFile, setSelectedFile] = useState<{ url: string; thumbnailUrl?: string; width?: number; height?: number } | null>(null)
   const [titleError, setTitleError] = useState("")
   const [descriptionError, setDescriptionError] = useState("")
   const [successMsg, setSuccessMsg] = useState("")
@@ -51,13 +51,13 @@ function VideoUploadForm() {
         setDescription("")
         setSelectedFile(null)
         router.replace("/")
-      } catch (err: any) {
-        setErrorMsg(err.message || "Failed to save video info.")
+      } catch (err: unknown) {
+        setErrorMsg((err as Error).message || "Failed to save video info.")
       } finally {
         setUploading(false)
       }
     },
-    [selectedFile, title, description]
+    [selectedFile, title, description, router]
   )
 
   return (
@@ -117,9 +117,7 @@ function VideoUploadForm() {
           {/* Upload Video Input */}
           <FileUpload
             onSuccess={(res) => setSelectedFile(res)}
-            onProgress={(progress: number) => {
-              /* handle progress if needed */
-            }}
+            onProgress={() => {}}
             fileType="video"
           />
 

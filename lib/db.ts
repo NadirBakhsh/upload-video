@@ -19,11 +19,6 @@ export async function connectToDatabase() {
   }
 
   if (!cached.promise) {
-    const opts = {
-      bufferCommands: true, // Disable mongoose's buffering of commands
-      maxPoolSize: 10 // Maintain up to 10 socket connections
-    }
-
     mongoose.connect(MONGODB_URI).then(() => mongoose.connection)
   }
 

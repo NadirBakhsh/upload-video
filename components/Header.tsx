@@ -1,11 +1,11 @@
 "use client"
 
-import { ChevronDown, CloverIcon, Home, User } from "lucide-react"
-import { signOut, useSession } from "next-auth/react"
+import { ChevronDown, Home } from "lucide-react"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
+import { useEffect, useRef, useState } from "react"
 import Logout from "./Logout"
 import { useNotification } from "./Notification"
-import { useState, useRef, useEffect } from "react"
 
 export default function Header() {
   const { data: session } = useSession()

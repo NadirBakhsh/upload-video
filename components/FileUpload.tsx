@@ -1,16 +1,15 @@
 "use client" // This component must be a client component
 
-import { upload } from "@imagekit/next"
+import { upload, UploadResponse } from "@imagekit/next"
 import React, { useState } from "react"
 
 interface FileUploadProps {
-  onSuccess: (res: any) => void
+  onSuccess: (res: { url: string; thumbnailUrl?: string; [key: string]: unknown }) => void
   onProgress: (progress: number) => void
   fileType: "image" | "video"
 }
 const FileUpload = ({ onSuccess, onProgress, fileType }: FileUploadProps) => {
   const [progress, setProgress] = useState(0)
-  const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const validateFile = (file: File) => {
@@ -33,13 +32,12 @@ const FileUpload = ({ onSuccess, onProgress, fileType }: FileUploadProps) => {
 
     if (!file || !validateFile(file)) return
 
-    setUploading(true)
     setError(null)
 
     try {
       const authRes = await fetch("/api/imagekit-auth")
       const auth = await authRes.json()
-      const res = await upload({
+      const res: UploadResponse = await upload({
         file,
         fileName: file.name,
         publicKey: process.env.NEXT_PUBLIC_IMAGEKIT_KEY!,
@@ -54,15 +52,14 @@ const FileUpload = ({ onSuccess, onProgress, fileType }: FileUploadProps) => {
           }
         }
       })
-      // Always provide a thumbnailUrl (fallback to url or empty string)
+      // Ensure url is always a string
       onSuccess({
         ...res,
+        url: res.url || "",
         thumbnailUrl: res.thumbnailUrl || res.url || ""
       })
     } catch (error) {
       console.log(error)
-    } finally {
-      setUploading(false)
     }
   }
 
@@ -107,5 +104,7 @@ const FileUpload = ({ onSuccess, onProgress, fileType }: FileUploadProps) => {
     </>
   )
 }
+
+
 
 export default FileUpload

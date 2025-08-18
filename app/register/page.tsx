@@ -10,6 +10,18 @@ function RegisterPage() {
   const { status } = useSession()
   const router = useRouter()
 
+  // All hooks must be called before any return
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [debouncedEmail, setDebouncedEmail] = useState("")
+  const [debouncedPassword, setDebouncedPassword] = useState("")
+  const [debouncedConfirmPassword, setDebouncedConfirmPassword] = useState("")
+
+  const debounceEmail = useDebounce(setDebouncedEmail, 400)
+  const debouncePassword = useDebounce(setDebouncedPassword, 400)
+  const debounceConfirmPassword = useDebounce(setDebouncedConfirmPassword, 400)
+
   useEffect(() => {
     if (status === "authenticated") {
       router.replace("/")
@@ -28,20 +40,6 @@ function RegisterPage() {
     return null
   }
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-
-  // Debounced setters
-  const [debouncedEmail, setDebouncedEmail] = useState("")
-  const [debouncedPassword, setDebouncedPassword] = useState("")
-  const [debouncedConfirmPassword, setDebouncedConfirmPassword] = useState("")
-
-  const debounceEmail = useDebounce(setDebouncedEmail, 400)
-  const debouncePassword = useDebounce(setDebouncedPassword, 400)
-  const debounceConfirmPassword = useDebounce(setDebouncedConfirmPassword, 400)
-
-  // Sync input values with debounced values
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value)
     debounceEmail(e.target.value)
@@ -81,8 +79,7 @@ function RegisterPage() {
         throw new Error(await res.text())
       }
       router.push("/login")
-    } catch (error) {
-      console.error("Registration error:", error)
+    } catch {
       alert("An error occurred during registration")
     }
   }

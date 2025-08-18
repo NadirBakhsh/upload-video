@@ -14,7 +14,7 @@ export default function Home() {
       try {
         const data = await apiClient.getVideos() as IVideo[]
         setVideos(data)
-      } catch (err: any) {
+      } catch {
         setError("Failed to load videos")
       } finally {
         setLoading(false)
