@@ -37,7 +37,7 @@ export default function VideoFeed({ videos, onDelete }: VideoFeedProps) {
             <button
               onClick={() => handleDelete(video._id?.toString() || "")}
               disabled={deletingId === video._id?.toString()}
-              className="absolute bottom-14 right-6 bg-red-500 cursor-pointer hover:bg-red-700 text-white rounded px-2 py-1 text-xs font-semibold shadow transition"
+              className="absolute bottom-4 right-6 bg-red-500 cursor-pointer hover:bg-red-700 text-white rounded px-2 py-1 text-xs font-semibold shadow transition"
             >
               {deletingId === video._id?.toString() ? (
                 <LoaderIcon className="w-4 h-4 inline animate-spin" />
