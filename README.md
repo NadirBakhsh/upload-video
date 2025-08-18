@@ -20,6 +20,22 @@ A fullstack Next.js application featuring secure authentication, image optimizat
 - MongoDB instance (local or cloud)
 - ImageKit account (for API keys)
 
+### Required Accounts & API Keys
+
+You must create accounts on the following platforms and obtain the required environment variables:
+
+- **MongoDB Atlas**  
+  [Create a free MongoDB Atlas account](https://www.mongodb.com/cloud/atlas/register) and get your connection string (`MONGODB_URI`).
+
+- **ImageKit**  
+  [Sign up for ImageKit.io](https://imagekit.io/dashboard/signup) and get your:
+  - Public Key (`IMAGEKIT_PUBLIC_KEY`)
+  - Private Key (`IMAGEKIT_PRIVATE_KEY`)
+  - URL Endpoint (`IMAGEKIT_URL_ENDPOINT`)
+
+- **NextAuth.js**  
+  Generate a strong secret for `NEXTAUTH_SECRET`. You can use `openssl rand -base64 32` or any secure random generator.
+
 ### Installation
 
 1. Clone the repository:
@@ -37,11 +53,11 @@ A fullstack Next.js application featuring secure authentication, image optimizat
 
    Create a `.env.local` file in the root directory and add:
    ```
-   MONGODB_URI=your_mongodb_connection_string
-   NEXTAUTH_SECRET=your_nextauth_secret
-   IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
-   IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
-   IMAGEKIT_URL_ENDPOINT=your_imagekit_url_endpoint
+   MONGODB_URI=your_mongodb_connection_string      # From MongoDB Atlas
+   NEXTAUTH_SECRET=your_nextauth_secret            # Generate yourself
+   IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key    # From ImageKit dashboard
+   IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key  # From ImageKit dashboard
+   IMAGEKIT_URL_ENDPOINT=your_imagekit_url_endpoint # From ImageKit dashboard
    ```
 
 ### Development
